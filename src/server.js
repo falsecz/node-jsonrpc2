@@ -124,10 +124,10 @@ Server.prototype.handleHttp = function (req, res) {
 
 		var callback = function (err, result) {
 			if (err) {
-        if (self.listeners('error').length) {
-          self.emit('error', err);
-        }
-        Endpoint.trace('-->', 'Failure (id ' + decoded.id + '): ' +
+				if (self.listeners('error').length) {
+					self.emit('error', err);
+				}
+				Endpoint.trace('-->', 'Failure (id ' + decoded.id + '): ' +
 					(err.stack ? err.stack : err.toString()));
 				err = err.toString();
 				result = null;
@@ -165,6 +165,7 @@ Server.prototype.handleRaw = function handleRaw(socket) {
 	var self = this;
 
 	var conn = new SocketConnection(this, socket);
+	self.conn = conn
 	var parser = new JsonParser();
 	var requireAuth = !!this.authHandler;
 
