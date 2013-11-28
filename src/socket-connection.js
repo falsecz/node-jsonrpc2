@@ -52,7 +52,9 @@ util.inherits(SocketConnection, Connection);
 
 SocketConnection.prototype.write = function write(data) {
 	if (!this.conn.writable) {
-		// Other side disconnected, we'll quietly fail
+		// Other side disconnected, we'll quietly fail // WAT
+		console.log('Error: Attempted to write data to non-writable socket.');
+		this.conn.emit('close', 'Socket is not writable anymore.');
 		return;
 	}
 
