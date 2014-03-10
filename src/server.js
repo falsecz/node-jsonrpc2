@@ -165,7 +165,8 @@ Server.prototype.handleRaw = function handleRaw(socket) {
 	var self = this;
 
 	var conn = new SocketConnection(this, socket);
-	self.conn = conn
+	self.conn = conn;
+	socket.server.conn = conn;
 	var parser = new JsonParser();
 	var requireAuth = !!this.authHandler;
 
