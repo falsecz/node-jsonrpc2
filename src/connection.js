@@ -40,9 +40,16 @@ Connection.prototype.call = function call(method, params, callback) {
   this.timer = setTimeout(function(){
     if(self.callbacks[id]) {
       console.log("timeout: Uklizim po ", method);
+
+      try {
+         self.callbacks[id]("Active timeout on " + method, {});
+         delete self.callbacks[id];
+      } catch (err) {
+        console.log("error from callback", err, err.stack);
+      }
       delete self.callbacks[id];
     }
-  }, 12 * 1000)
+  }, 110 * 1000)
 
 	Endpoint.trace('-->', 'Connection call (method ' + method + '): ' + JSON.stringify(params));
 	var data = JSON.stringify({
@@ -89,6 +96,7 @@ Connection.prototype.handleMessage = function handleMessage(msg) {
 			this.callbacks[msg.id](msg.error, msg.result);
 			delete this.callbacks[msg.id];
 		} catch (err) {
+      console.log("error from callback2", err);
 			// TODO: What do we do with erroneous callbacks?
 		}
 	} else if (msg.hasOwnProperty('method')) {
