@@ -8,6 +8,7 @@ var Connection = function Connection(ep) {
 
 	this.endpoint = ep;
 	this.callbacks = {};
+  var self = this;
 	this.latestId = 0;
 
 	// Default error handler (prevents "uncaught error event")
@@ -33,6 +34,15 @@ Connection.prototype.call = function call(method, params, callback) {
 		id = ++this.latestId;
 		this.callbacks[id] = callback;
 	}
+  // console.log("cb count", Object.keys(this.callbacks).length);
+
+  var self = this;
+  this.timer = setTimeout(function(){
+    if(self.callbacks[id]) {
+      console.log("timeout: Uklizim po ", method);
+      delete self.callbacks[id];
+    }
+  }, 12 * 1000)
 
 	Endpoint.trace('-->', 'Connection call (method ' + method + '): ' + JSON.stringify(params));
 	var data = JSON.stringify({
@@ -68,6 +78,8 @@ Connection.prototype.stream = function (onend) {
 
 Connection.prototype.handleMessage = function handleMessage(msg) {
 	var self = this;
+
+  clearTimeout(this.timer);
 
 	if (msg.hasOwnProperty('result') ||
 		msg.hasOwnProperty('error') &&

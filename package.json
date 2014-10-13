@@ -1,6 +1,6 @@
 {
-  "name": "jsonrpc2",
-  "version": "0.1.4",
+  "name": "@sbks/jsonrpc2",
+  "version": "1.0.0",
   "description": "JSON-RPC server and client library",
   "main": "./src/jsonrpc",
   "keywords": [
@@ -9,18 +9,9 @@
     "server",
     "client"
   ],
-  "author": "Eric Florenzano <floguy@gmail.com> (eflorenzano.com)",
   "dependencies": {
     "jsonparse": ">=0.0.1",
     "debug": "*"
-  },
-  "contributors": [
-    "Bill Casarin <bill@casarin.ca> (jb55.com)",
-    "Stefan Thomas <justmoon@members.fsf.org> (justmoon.net)"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/bitcoinjs/node-jsonrpc2.git"
   },
   "devDependencies": {
     "async": "~0.2.5",
