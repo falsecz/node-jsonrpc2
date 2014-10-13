@@ -96,7 +96,7 @@ Connection.prototype.handleMessage = function handleMessage(msg) {
 			this.callbacks[msg.id](msg.error, msg.result);
 			delete this.callbacks[msg.id];
 		} catch (err) {
-      console.log("error from callback2", err);
+      console.log("error from callback2", err, err.stack);
 			// TODO: What do we do with erroneous callbacks?
 		}
 	} else if (msg.hasOwnProperty('method')) {
