@@ -8,7 +8,7 @@ var Connection = function Connection(ep) {
 
 	this.endpoint = ep;
 	this.callbacks = {};
-  var self = this;
+	var self = this;
 	this.latestId = 0;
 
 	// Default error handler (prevents "uncaught error event")
@@ -34,22 +34,22 @@ Connection.prototype.call = function call(method, params, callback) {
 		id = ++this.latestId;
 		this.callbacks[id] = callback;
 	}
-  // console.log("cb count", Object.keys(this.callbacks).length);
+	// console.log("cb count", Object.keys(this.callbacks).length);
 
-  var self = this;
-  this.timer = setTimeout(function(){
-    if(self.callbacks[id]) {
-      console.log("timeout: Uklizim po ", method);
+	var self = this;
+	this.timer = setTimeout(function(){
+		if(self.callbacks[id]) {
+			console.log("timeout: Uklizim po ", method);
 
-      try {
-         self.callbacks[id]("Active timeout on " + method, {});
-         delete self.callbacks[id];
-      } catch (err) {
-        console.log("error from callback", err, err.stack);
-      }
-      delete self.callbacks[id];
-    }
-  }, 110 * 1000)
+			try {
+				 self.callbacks[id]("Active timeout on " + method, {});
+				 delete self.callbacks[id];
+			} catch (err) {
+				console.log("error from callback", err, err.stack);
+			}
+			delete self.callbacks[id];
+		}
+	}, 300 * 1000)
 
 	Endpoint.trace('-->', 'Connection call (method ' + method + '): ' + JSON.stringify(params));
 	var data = JSON.stringify({
@@ -86,7 +86,7 @@ Connection.prototype.stream = function (onend) {
 Connection.prototype.handleMessage = function handleMessage(msg) {
 	var self = this;
 
-  clearTimeout(this.timer);
+	clearTimeout(this.timer);
 
 	if (msg.hasOwnProperty('result') ||
 		msg.hasOwnProperty('error') &&
@@ -98,7 +98,7 @@ Connection.prototype.handleMessage = function handleMessage(msg) {
 				delete this.callbacks[msg.id];
 			}
 		} catch (err) {
-      console.log("error from callback2", err, err.stack);
+			console.log("error from callback2", err, err.stack);
 			// TODO: What do we do with erroneous callbacks?
 		}
 	} else if (msg.hasOwnProperty('method')) {
