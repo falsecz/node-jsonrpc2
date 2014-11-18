@@ -16,7 +16,7 @@ var SocketConnection = function (endpoint, conn) {
 
 	this.conn = conn;
 	this.autoReconnect = true;
-	this.ended = false;
+	this.ended = true;
 
 	this.conn.on('connect', function () {
 		self.emit('connect');
@@ -68,7 +68,6 @@ SocketConnection.prototype.end = function end() {
 
 SocketConnection.prototype.reconnect = function reconnect() {
 	this.ended = false;
-	var Client = require('./client.js');
 	if (this.endpoint instanceof Client) {
 		this.conn.connect(this.endpoint.port, this.endpoint.host);
 	} else {
