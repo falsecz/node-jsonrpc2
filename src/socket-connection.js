@@ -68,6 +68,7 @@ SocketConnection.prototype.end = function end() {
 
 SocketConnection.prototype.reconnect = function reconnect() {
 	this.ended = false;
+	var Client = require('./client.js');
 	if (this.endpoint instanceof Client) {
 		this.conn.connect(this.endpoint.port, this.endpoint.host);
 	} else {
