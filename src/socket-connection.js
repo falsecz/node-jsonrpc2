@@ -53,7 +53,14 @@ util.inherits(SocketConnection, Connection);
 SocketConnection.prototype.write = function write(data) {
 	if (!this.conn.writable) {
 		// Other side disconnected, we'll quietly fail // WAT
-		console.log('Error: Attempted to write data to non-writable socket.');
+		var peer = {
+			address: "unknown",
+			port: "unknown"
+		}
+		if (this.conn._peername) {
+			peer = this.conn._peername;
+		}
+		console.log('Error: Attempted to write data to non-writable socket:', peer.address + ':' + peer.port);
 		this.conn.emit('close', 'Socket is not writable anymore.');
 		return;
 	}
